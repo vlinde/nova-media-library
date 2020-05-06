@@ -15,6 +15,15 @@ export default {
       isHidden: this.field.isHidden === true
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+      let field = document.getElementById('fields[en][' + this.field.name + ']')
+
+      if(field) {
+        field.value = Array.isArray(this.value) ? JSON.stringify(this.value) : this.value
+      }
+    });
+  },
   methods: {
     setInitialValue() {
       this.value = this.field.value || null
@@ -25,6 +34,12 @@ export default {
     },
     handleChange(value) {
       this.value = value
+
+      let field = document.getElementById('fields[en][' + this.field.name + ']')
+
+      if(field) {
+        field.value = this.value
+      }
     }
   }
 }

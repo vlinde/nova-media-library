@@ -1,27 +1,22 @@
 <template>
-    <div class="flex border-b border-40">
-        <slot>
-            <div class="w-1/4 py-4 font-normal text-80">
-                {{ field.indexName }}
-            </div>
-        </slot>
-        <slot name="value">
-            <div class="nml-field-form w-3/4 py-4">
+    <default-field :field="field" :errors="errors" :fullWidthContent="true">
+        <template slot="field">
+            <div class="nml-field-form">
 
-                <span class="cursor-pointer dim text-primary font-bold"
-                      v-if="isHidden" @click="isHidden = false"
+                <span class="cursor-pointer dim inline-block text-primary font-bold pt-2 leading-tight"
+                      v-if="isHidden" @click="isHidden = 0"
                 >{{ __("nml_show") }}</span>
 
-                <template v-else-if="field.value">
-                    <nmlList v-if="field.listing" :field="field" />
-                    <nmlFile v-else :field="field" />
+                <template v-else>
+                    <nmlList v-if="field.listing" :field="field" :handler="handleChange" />
+                    <nmlTrix v-else-if="field.forTrix" :field="field" />
+                    <nmlCallback v-else-if="field.jsCallback" :field="field" />
+                    <nmlFile v-else :field="field" :handler="handleChange" />
                 </template>
 
-                <template v-else>—</template>
-
             </div>
-        </slot>
-    </div>
+        </template>
+    </default-field>
 </template>
 
-<script src="./script.js"></script>
+<script src="../Form/script.js"></script>
